@@ -17,8 +17,8 @@ public class MySQLDatabase {
     static final String DB_URL = "jdbc:mysql://mysql03.crossnet.net/LTUuser";
 
     // DB Login
-    static final String USER = "LTUuser";
-    static final String PASSWORD = "d0004n";
+    static final String USER = "USER";
+    static final String PASSWORD = "PASSWORD";
 
     private Connection conn;
 
