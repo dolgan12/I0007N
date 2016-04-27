@@ -53,7 +53,7 @@ public class FormEvent extends EventObject{
         return category;
     }
 
-    public void setCategoryId(String categoryId) {
+    public void setCategory(String category) {
         this.category = category;
     }
 
@@ -61,7 +61,7 @@ public class FormEvent extends EventObject{
         return status;
     }
 
-    public void setStatusId(String statusId) {
+    public void setStatus(String status) {
         this.status = status;
     }
 
