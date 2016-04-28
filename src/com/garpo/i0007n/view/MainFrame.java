@@ -46,6 +46,7 @@ public class MainFrame extends JFrame{
         taskFormPanel = new TaskFormPanel();
         taskTabelPanel = new TaskTabelPanel();
         splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT,taskFormPanel, taskTabelPanel);
+        splitPane.setEnabled(false);
 
 
         try {

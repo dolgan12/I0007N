@@ -58,6 +58,10 @@ public class TaskFormPanel extends JPanel implements  FormListener{
 
         okBtn = new JButton("OK");
 
+
+        description.setLineWrap(true);
+
+
         // === Setup Status list ====
         List<String> statusList = controller.getStatusList();
 
@@ -101,8 +105,8 @@ public class TaskFormPanel extends JPanel implements  FormListener{
     public void layoutComponents(){
         setLayout(new GridBagLayout());
 
-        Insets fiveRight = new Insets(0, 0, 0, 5);
-        Insets noInsets = new Insets(0, 0, 0, 0);
+        Insets fiveRight = new Insets(3, 0, 0, 5);
+        Insets noInsets = new Insets(3, 0, 0, 0);
 
         GridBagConstraints gc = new GridBagConstraints();
 
@@ -110,10 +114,10 @@ public class TaskFormPanel extends JPanel implements  FormListener{
         gc.gridy = 0;
 
         gc.weightx = 1;
-        gc.weighty = 0.05;
+        gc.weighty = 0;
 
         gc.gridx = 0;
-        gc.fill = GridBagConstraints.NONE;
+        gc.fill = GridBagConstraints.NORTHWEST;
         gc.anchor = GridBagConstraints.LINE_END;
         gc.insets = fiveRight;
         add(idNameLabel, gc);
@@ -173,7 +177,7 @@ public class TaskFormPanel extends JPanel implements  FormListener{
         gc.gridx = 1;
         gc.anchor = GridBagConstraints.FIRST_LINE_START;
         gc.insets = noInsets;
-        add(description, gc);
+        add(new JScrollPane(description), gc);
 
         // sixth row //
         gc.gridy++;
@@ -200,6 +204,13 @@ public class TaskFormPanel extends JPanel implements  FormListener{
         gc.anchor = GridBagConstraints.LINE_START;
         gc.insets = noInsets;
         add(usedTime, gc);
+
+
+        // Last row to add space at bottom of form.
+        gc.gridy++;
+        gc.weighty = 1;
+        gc.weighty = 1;
+        add(new JLabel(""), gc);
 
     }
 
