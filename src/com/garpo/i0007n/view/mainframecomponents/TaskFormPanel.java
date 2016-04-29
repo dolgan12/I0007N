@@ -103,7 +103,17 @@ public class TaskFormPanel extends JPanel implements  FormListener{
     }
 
     public void layoutComponents(){
-        setLayout(new GridBagLayout());
+
+        JPanel gridPanel = new JPanel(new GridBagLayout());
+        JPanel flowPanel = new JPanel(new FlowLayout());
+
+        GridBagLayout gridBagLayout = new GridBagLayout();
+        FlowLayout buttonLayout = new FlowLayout();
+
+        add(gridPanel, BorderLayout.CENTER);
+        add(flowPanel, BorderLayout.SOUTH);
+
+        setLayout(gridBagLayout);
 
         Insets fiveRight = new Insets(3, 0, 0, 5);
         Insets noInsets = new Insets(3, 0, 0, 0);
@@ -119,12 +129,12 @@ public class TaskFormPanel extends JPanel implements  FormListener{
         gc.gridx = 0;
         gc.fill = GridBagConstraints.NORTHWEST;
         gc.anchor = GridBagConstraints.LINE_END;
-        gc.insets = fiveRight;
+        gc.insets = new Insets(20,0,0,5);
         add(idNameLabel, gc);
 
         gc.gridx = 1;
         gc.anchor = GridBagConstraints.LINE_START;
-        gc.insets = noInsets;
+        gc.insets = new Insets(20,0,0,0);
         add(idLabel, gc);
 
         // second row //
