@@ -6,7 +6,11 @@ import com.garpo.i0007n.view.FormEvent;
 import com.garpo.i0007n.view.FormListener;
 
 import javax.swing.*;
-import java.util.ArrayList;
+import javax.swing.border.Border;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.List;
 import java.awt.*;
 
@@ -28,7 +32,8 @@ public class TaskFormPanel extends JPanel implements  FormListener{
     private JTextField estimateTime;
     private JLabel usedTimeLabel;
     private JTextField usedTime;
-    private JButton okBtn;
+    private JButton btn1;
+    private JButton btn2;
 
     private FormListener formListener;
 
@@ -36,7 +41,7 @@ public class TaskFormPanel extends JPanel implements  FormListener{
 
     public TaskFormPanel(){
         Dimension dim = getPreferredSize();
-        dim.width = 250;
+        dim.width = 280;
         setPreferredSize(dim);
         setMinimumSize(dim);
 
@@ -52,14 +57,34 @@ public class TaskFormPanel extends JPanel implements  FormListener{
         category = new JComboBox();
         status = new JComboBox();
         assignedTo = new JComboBox();
-        description = new JTextArea(10,10);
-        estimateTime = new JTextField(5);
-        usedTime = new JTextField(5);
-
-        okBtn = new JButton("OK");
-
+        description = new JTextArea(8,10);
+        estimateTime = new JTextField(4);
+        usedTime = new JTextField(4);
 
         description.setLineWrap(true);
+
+        btn1 = new JButton("Update");
+        btn2 = new JButton("Cancel");
+
+        btn1.setVisible(false);
+        btn2.setVisible(false);
+
+        btn2.addActionListener(new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                idLabel.setText("");
+                status.getModel().setSelectedItem("");
+                category.getModel().setSelectedItem("");
+                assignedTo.getModel().setSelectedItem("");
+                description.setText("");
+                estimateTime.setText("");
+                usedTime.setText("");
+
+                btn1.setVisible(false);
+                btn2.setVisible(false);
+            }
+        });
+
 
 
         // === Setup Status list ====
@@ -96,7 +121,9 @@ public class TaskFormPanel extends JPanel implements  FormListener{
         assignedTo.setModel(personListModel);
         assignedTo.setBorder(BorderFactory.createEtchedBorder());
 
-
+        Border innerBorder = BorderFactory.createTitledBorder("Task");
+        Border outerBorder = BorderFactory.createEmptyBorder(3,3,3,3);
+        setBorder(BorderFactory.createCompoundBorder(outerBorder, innerBorder));
 
 
         layoutComponents();
@@ -104,14 +131,10 @@ public class TaskFormPanel extends JPanel implements  FormListener{
 
     public void layoutComponents(){
 
-        JPanel gridPanel = new JPanel(new GridBagLayout());
-        JPanel flowPanel = new JPanel(new FlowLayout());
 
         GridBagLayout gridBagLayout = new GridBagLayout();
-        FlowLayout buttonLayout = new FlowLayout();
 
-        add(gridPanel, BorderLayout.CENTER);
-        add(flowPanel, BorderLayout.SOUTH);
+        //==== GRIDBAG LAYOUT - TOP PART OF THE FORM =========//
 
         setLayout(gridBagLayout);
 
@@ -123,18 +146,18 @@ public class TaskFormPanel extends JPanel implements  FormListener{
         // First row //
         gc.gridy = 0;
 
-        gc.weightx = 1;
+        gc.weightx = 0;
         gc.weighty = 0;
 
         gc.gridx = 0;
         gc.fill = GridBagConstraints.NORTHWEST;
         gc.anchor = GridBagConstraints.LINE_END;
-        gc.insets = new Insets(20,0,0,5);
+        gc.insets = new Insets(10,0,0,5);
         add(idNameLabel, gc);
 
         gc.gridx = 1;
         gc.anchor = GridBagConstraints.LINE_START;
-        gc.insets = new Insets(20,0,0,0);
+        gc.insets = new Insets(10,0,0,0);
         add(idLabel, gc);
 
         // second row //
@@ -216,18 +239,32 @@ public class TaskFormPanel extends JPanel implements  FormListener{
         add(usedTime, gc);
 
 
-        // Last row to add space at bottom of form.
+        // next row //
         gc.gridy++;
-        gc.weighty = 1;
+
+        gc.weighty = 2;
+        gc.gridx = 0;
+        gc.anchor = GridBagConstraints.LINE_END;
+        add(btn1,gc);
+
+        gc.gridx = 1;
+        gc.anchor = GridBagConstraints.LINE_START;
+        add(btn2,gc);
+
+
+        // Last row to add space at bottom of form.
+        /*
+        gc.gridy++;
+        gc.weighty = 2;
         gc.weighty = 1;
         add(new JLabel(""), gc);
+        */
 
     }
 
 
     @Override
     public void formEventOccured(FormEvent event) {
-        System.out.println("event");
         idLabel.setText(Integer.toString(event.getId()));
         status.getModel().setSelectedItem(event.getStatusId());
         category.getModel().setSelectedItem(event.getCategory());
@@ -235,5 +272,8 @@ public class TaskFormPanel extends JPanel implements  FormListener{
         description.setText(event.getDescription());
         estimateTime.setText(Integer.toString(event.getEstimateTime()));
         usedTime.setText(Integer.toString(event.getUsedTime()));
+
+        btn1.setVisible(true);
+        btn2.setVisible(true);
     }
 }

@@ -56,7 +56,6 @@ public class TaskTabelPanel extends JPanel {
 
                 if (formListener != null) {
                     formListener.formEventOccured(event);
-                    System.out.println("Event sent!");
                 }
             }
 
