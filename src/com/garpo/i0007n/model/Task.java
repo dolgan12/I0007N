@@ -97,4 +97,11 @@ public class Task {
     public void setUsedTime(int usedTime) {
         this.usedTime = usedTime;
     }
+
+    @Override
+    public String toString() {
+        return "Id: " + id + "\nAssigned: " + assigned + "\nCategory: " + category + "\n" +
+                "Status: " + status + "\nDescription: " + description + "\nEstimateTime: " + estimateTime + "\n" +
+                "UsedTime: " + usedTime;
+    }
 }

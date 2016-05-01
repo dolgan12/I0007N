@@ -7,7 +7,7 @@ import java.util.List;
  */
 public interface TaskDAO {
     int addTask(Task task) throws Exception;
-    int updateTask(int id) throws Exception;
+    int updateTask(Task task) throws Exception;
     List<Task> getAllTasks() throws Exception;
     Task getTask(int id) throws Exception;
 }

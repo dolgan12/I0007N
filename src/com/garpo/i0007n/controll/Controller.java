@@ -78,6 +78,11 @@ public class Controller {
     public List<Task> getTasks() throws Exception{
         return taskDAO.getAllTasks();
     }
+    public int updateTask(int id, int assigned, int category, int status, String description, int estimateTime, int usedTime) throws Exception{
+        Task task = new Task(id, assigned, category, status, description, estimateTime, usedTime);
+        return taskDAO.updateTask(task);
+    }
+
 
 
 
@@ -89,7 +94,7 @@ public class Controller {
         return statuses;
     }
     public Status getStatus(int id){
-        return statuses.get(id);
+        return statuses.get(id-1);
     }
     public List<String> getStatusList(){
         List<String> statusList = new ArrayList<>();

@@ -4,6 +4,7 @@ import com.garpo.i0007n.controll.Controller;
 import com.garpo.i0007n.model.Person;
 import com.garpo.i0007n.controll.FormEvent;
 import com.garpo.i0007n.view.FormListener;
+import com.garpo.i0007n.view.MainFrame;
 
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -37,7 +38,7 @@ public class TaskFormPanel extends JPanel implements  FormListener{
 
     Controller controller = Controller.getController();
 
-    public TaskFormPanel(){
+    public TaskFormPanel(MainFrame parent){
         Dimension dim = getPreferredSize();
         dim.width = 280;
         setPreferredSize(dim);
@@ -70,16 +71,30 @@ public class TaskFormPanel extends JPanel implements  FormListener{
         btn2.addActionListener(new ActionListener(){
             @Override
             public void actionPerformed(ActionEvent e) {
-                idLabel.setText("");
-                status.getModel().setSelectedItem("");
-                category.getModel().setSelectedItem("");
-                assignedTo.getModel().setSelectedItem("");
-                description.setText("");
-                estimateTime.setText("");
-                usedTime.setText("");
+                setEmpty();
+            }
+        });
 
-                btn1.setVisible(false);
-                btn2.setVisible(false);
+        btn1.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int id = Integer.parseInt(idLabel.getText());
+                int assigned = assignedTo.getSelectedIndex();
+                int categoryId = category.getSelectedIndex();
+                int statusId = status.getSelectedIndex();
+                String desc = description.getText();
+                int est = Integer.parseInt(estimateTime.getText());
+                int used = Integer.parseInt(usedTime.getText());
+
+                try {
+                    controller.updateTask(id, assigned, categoryId, statusId, desc, est, used);
+                    parent.refreshTable();
+                    setEmpty();
+
+                } catch (Exception e1) {
+                    new JOptionPane("Update Error");
+                    e1.printStackTrace();
+                }
             }
         });
 
@@ -125,6 +140,19 @@ public class TaskFormPanel extends JPanel implements  FormListener{
 
 
         layoutComponents();
+    }
+
+    public void setEmpty(){
+        idLabel.setText("");
+        status.getModel().setSelectedItem("");
+        category.getModel().setSelectedItem("");
+        assignedTo.getModel().setSelectedItem("");
+        description.setText("");
+        estimateTime.setText("");
+        usedTime.setText("");
+
+        btn1.setVisible(false);
+        btn2.setVisible(false);
     }
 
     public void layoutComponents(){
@@ -249,14 +277,6 @@ public class TaskFormPanel extends JPanel implements  FormListener{
         gc.anchor = GridBagConstraints.LINE_START;
         add(btn2,gc);
 
-
-        // Last row to add space at bottom of form.
-        /*
-        gc.gridy++;
-        gc.weighty = 2;
-        gc.weighty = 1;
-        add(new JLabel(""), gc);
-        */
 
     }
 

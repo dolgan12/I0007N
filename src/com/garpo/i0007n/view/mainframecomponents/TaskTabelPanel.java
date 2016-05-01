@@ -1,5 +1,6 @@
 package com.garpo.i0007n.view.mainframecomponents;
 
+import com.garpo.i0007n.controll.Controller;
 import com.garpo.i0007n.model.Person;
 import com.garpo.i0007n.model.Task;
 import com.garpo.i0007n.controll.TaskTabelModel;
@@ -71,6 +72,7 @@ public class TaskTabelPanel extends JPanel {
     }
 
     public void refresh() {
+
         tabelModel.fireTableDataChanged();
     }
 

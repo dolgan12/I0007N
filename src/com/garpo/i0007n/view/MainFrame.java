@@ -22,6 +22,8 @@ public class MainFrame extends JFrame{
     private JSplitPane splitPane;
     private TaskFormPanel taskFormPanel;
 
+    Controller controller = Controller.getController();
+
     /**
      *  Constructor to create the main window of the application
      */
@@ -35,7 +37,7 @@ public class MainFrame extends JFrame{
             e.printStackTrace();
         }
 
-        Controller controller = Controller.getController();
+
         // MainFrame Layout
 
         setLayout(new BorderLayout());
@@ -43,7 +45,7 @@ public class MainFrame extends JFrame{
         menuBar = new MainMenuBar(this);
         setJMenuBar(menuBar);
 
-        taskFormPanel = new TaskFormPanel();
+        taskFormPanel = new TaskFormPanel(this);
         taskTabelPanel = new TaskTabelPanel();
         splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT,taskFormPanel, taskTabelPanel);
         splitPane.setEnabled(false);
@@ -88,4 +90,14 @@ public class MainFrame extends JFrame{
         });
 
     }
+    public void refreshTable(){
+        try {
+            taskTabelPanel.setData(controller.getTasks());
+            taskTabelPanel.refresh();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
 }
