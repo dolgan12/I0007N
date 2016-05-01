@@ -61,7 +61,7 @@ public class MainFrame extends JFrame{
 
         add(splitPane, BorderLayout.CENTER);
         // Set the Options of the Main window
-        Dimension size = new Dimension(800,600);
+        Dimension size = new Dimension(1100,500);
         setMinimumSize(size);
         setSize(size);
         setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);

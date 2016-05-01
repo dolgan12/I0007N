@@ -25,6 +25,15 @@ public class TaskTabelPanel extends JPanel {
         tabelModel = new TaskTabelModel();
         table = new JTable(tabelModel);
 
+
+        table.getColumnModel().getColumn(0).setPreferredWidth(60);
+        table.getColumnModel().getColumn(1).setPreferredWidth(70);
+        table.getColumnModel().getColumn(2).setPreferredWidth(70);
+        table.getColumnModel().getColumn(3).setPreferredWidth(200);
+        table.getColumnModel().getColumn(4).setPreferredWidth(200);
+        table.getColumnModel().getColumn(5).setPreferredWidth(100);
+        table.getColumnModel().getColumn(6).setPreferredWidth(100);
+
         setLayout(new BorderLayout());
         add(new JScrollPane(table), BorderLayout.CENTER);
 
