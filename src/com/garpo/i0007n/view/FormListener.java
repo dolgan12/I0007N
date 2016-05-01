@@ -1,6 +1,6 @@
 package com.garpo.i0007n.view;
 
-import org.w3c.dom.events.Event;
+import com.garpo.i0007n.controll.FormEvent;
 
 import java.util.EventListener;
 

@@ -1,4 +1,4 @@
-package com.garpo.i0007n.view;
+package com.garpo.i0007n.controll;
 
 import com.garpo.i0007n.model.Person;
 

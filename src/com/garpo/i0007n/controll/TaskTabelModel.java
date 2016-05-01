@@ -1,4 +1,4 @@
-package com.garpo.i0007n.model;
+package com.garpo.i0007n.controll;
 
 import com.garpo.i0007n.controll.Controller;
 import com.garpo.i0007n.model.Task;

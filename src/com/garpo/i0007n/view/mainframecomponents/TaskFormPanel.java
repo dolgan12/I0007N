@@ -2,15 +2,13 @@ package com.garpo.i0007n.view.mainframecomponents;
 
 import com.garpo.i0007n.controll.Controller;
 import com.garpo.i0007n.model.Person;
-import com.garpo.i0007n.view.FormEvent;
+import com.garpo.i0007n.controll.FormEvent;
 import com.garpo.i0007n.view.FormListener;
 
 import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.util.List;
 import java.awt.*;
 

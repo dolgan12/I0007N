@@ -2,9 +2,9 @@ package com.garpo.i0007n.view.mainframecomponents;
 
 import com.garpo.i0007n.model.Person;
 import com.garpo.i0007n.model.Task;
-import com.garpo.i0007n.model.TaskTabelModel;
+import com.garpo.i0007n.controll.TaskTabelModel;
 import com.garpo.i0007n.view.ClickListener;
-import com.garpo.i0007n.view.FormEvent;
+import com.garpo.i0007n.controll.FormEvent;
 import com.garpo.i0007n.view.FormListener;
 
 import javax.swing.*;
