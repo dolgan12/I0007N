@@ -9,4 +9,5 @@ public interface CommentDAO {
     List<Comment> getAllCommentsForId(int taskid) throws Exception;
     Comment getComment(int id) throws Exception;
     int addComment(Comment comment) throws Exception;
+    int updateComment(Comment comment) throws Exception;
 }

@@ -22,6 +22,7 @@ public class Controller {
     TaskDAO taskDAO = new MySQLTaskDAO();
     StatusDAO statusDAO = new MySQLStatusDAO();
     CategoryDAO categoryDAO = new MySQLCategoryDAO();
+    CommentDAO commentDAO = new MySQLCommentDAO();
 
 
     private Controller() {
@@ -112,5 +113,19 @@ public class Controller {
         return categoryList;
     }
 
+
+    /**
+     *  ==== Comment Controlls ====
+     */
+
+    public List<Comment> getComments(int taskId) throws Exception{
+        List<Comment> commentList = new ArrayList<>();
+        commentList = commentDAO.getAllCommentsForId(taskId);
+
+        return commentList;
+    }
+    public void addComment(Comment comment) throws Exception{
+        commentDAO.addComment(comment);
+    }
 
 }

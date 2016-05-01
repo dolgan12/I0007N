@@ -44,4 +44,9 @@ public class MySQLCommentDAO implements CommentDAO{
     public int addComment(Comment comment) throws Exception {
         return 0;
     }
+
+    @Override
+    public int updateComment(Comment comment) throws Exception {
+        return 0;
+    }
 }
