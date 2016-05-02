@@ -159,10 +159,10 @@ public class TaskFormPanel extends JPanel implements  FormListener{
 
 
         GridBagLayout gridBagLayout = new GridBagLayout();
+        JPanel gridPanel = new JPanel(gridBagLayout);
+        JPanel flowPanel = new JPanel(new FlowLayout());
 
         //==== GRIDBAG LAYOUT - TOP PART OF THE FORM =========//
-
-        setLayout(gridBagLayout);
 
         Insets fiveRight = new Insets(3, 0, 0, 5);
         Insets noInsets = new Insets(3, 0, 0, 0);
@@ -178,13 +178,13 @@ public class TaskFormPanel extends JPanel implements  FormListener{
         gc.gridx = 0;
         gc.fill = GridBagConstraints.NORTHWEST;
         gc.anchor = GridBagConstraints.LINE_END;
-        gc.insets = new Insets(10,0,0,5);
-        add(idNameLabel, gc);
+        gc.insets = new Insets(5,0,0,5);
+        gridPanel.add(idNameLabel, gc);
 
         gc.gridx = 1;
         gc.anchor = GridBagConstraints.LINE_START;
-        gc.insets = new Insets(10,0,0,0);
-        add(idLabel, gc);
+        gc.insets = new Insets(5,0,0,0);
+        gridPanel.add(idLabel, gc);
 
         // second row //
         gc.gridy++;
@@ -192,12 +192,12 @@ public class TaskFormPanel extends JPanel implements  FormListener{
         gc.gridx = 0;
         gc.anchor = GridBagConstraints.LINE_END;
         gc.insets = fiveRight;
-        add(statusLabel, gc);
+        gridPanel.add(statusLabel, gc);
 
         gc.gridx = 1;
         gc.anchor = GridBagConstraints.LINE_START;
         gc.insets = noInsets;
-        add(status, gc);
+        gridPanel.add(status, gc);
 
         // third row //
         gc.gridy++;
@@ -205,12 +205,12 @@ public class TaskFormPanel extends JPanel implements  FormListener{
         gc.gridx = 0;
         gc.anchor = GridBagConstraints.LINE_END;
         gc.insets = fiveRight;
-        add(categoryLabel, gc);
+        gridPanel.add(categoryLabel, gc);
 
         gc.gridx = 1;
         gc.anchor = GridBagConstraints.LINE_START;
         gc.insets = noInsets;
-        add(category, gc);
+        gridPanel.add(category, gc);
 
         // fourth row //
         gc.gridy++;
@@ -218,12 +218,12 @@ public class TaskFormPanel extends JPanel implements  FormListener{
         gc.gridx = 0;
         gc.anchor = GridBagConstraints.LINE_END;
         gc.insets = fiveRight;
-        add(assignedToLabel, gc);
+        gridPanel.add(assignedToLabel, gc);
 
         gc.gridx = 1;
         gc.anchor = GridBagConstraints.LINE_START;
         gc.insets = noInsets;
-        add(assignedTo, gc);
+        gridPanel.add(assignedTo, gc);
 
         // fifth row //
         gc.gridy++;
@@ -231,12 +231,12 @@ public class TaskFormPanel extends JPanel implements  FormListener{
         gc.gridx = 0;
         gc.anchor = GridBagConstraints.FIRST_LINE_END;
         gc.insets = fiveRight;
-        add(descriptionLabel, gc);
+        gridPanel.add(descriptionLabel, gc);
 
         gc.gridx = 1;
         gc.anchor = GridBagConstraints.FIRST_LINE_START;
         gc.insets = noInsets;
-        add(new JScrollPane(description), gc);
+        gridPanel.add(new JScrollPane(description), gc);
 
         // sixth row //
         gc.gridy++;
@@ -244,12 +244,12 @@ public class TaskFormPanel extends JPanel implements  FormListener{
         gc.gridx = 0;
         gc.anchor = GridBagConstraints.LINE_END;
         gc.insets = fiveRight;
-        add(estimateTimeLabel, gc);
+        gridPanel.add(estimateTimeLabel, gc);
 
         gc.gridx = 1;
         gc.anchor = GridBagConstraints.LINE_START;
         gc.insets = noInsets;
-        add(estimateTime, gc);
+        gridPanel.add(estimateTime, gc);
 
         // seventh row //
         gc.gridy++;
@@ -257,12 +257,12 @@ public class TaskFormPanel extends JPanel implements  FormListener{
         gc.gridx = 0;
         gc.anchor = GridBagConstraints.LINE_END;
         gc.insets = fiveRight;
-        add(usedTimeLabel, gc);
+        gridPanel.add(usedTimeLabel, gc);
 
         gc.gridx = 1;
         gc.anchor = GridBagConstraints.LINE_START;
         gc.insets = noInsets;
-        add(usedTime, gc);
+        gridPanel.add(usedTime, gc);
 
 
         // next row //
@@ -271,13 +271,17 @@ public class TaskFormPanel extends JPanel implements  FormListener{
         gc.weighty = 2;
         gc.gridx = 0;
         gc.anchor = GridBagConstraints.LINE_END;
-        add(btn1,gc);
+        //add(btn1,gc);
 
         gc.gridx = 1;
         gc.anchor = GridBagConstraints.LINE_START;
-        add(btn2,gc);
+       // add(btn2,gc);
 
+        flowPanel.add(btn1);
+        flowPanel.add(btn2);
 
+        add(gridPanel,BorderLayout.CENTER);
+        add(flowPanel,BorderLayout.SOUTH);
     }
 
 
