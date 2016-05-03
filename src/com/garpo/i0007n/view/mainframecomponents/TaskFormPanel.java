@@ -134,7 +134,7 @@ public class TaskFormPanel extends JPanel implements  FormListener{
         assignedTo.setModel(personListModel);
         assignedTo.setBorder(BorderFactory.createEtchedBorder());
 
-        Border innerBorder = BorderFactory.createTitledBorder("Task");
+        Border innerBorder = BorderFactory.createTitledBorder("");
         Border outerBorder = BorderFactory.createEmptyBorder(3,3,3,3);
         setBorder(BorderFactory.createCompoundBorder(outerBorder, innerBorder));
 
