@@ -68,33 +68,25 @@ public class TaskFormPanel extends JPanel implements  FormListener{
         btn1.setVisible(false);
         btn2.setVisible(false);
 
-        btn2.addActionListener(new ActionListener(){
-            @Override
-            public void actionPerformed(ActionEvent e) {
+        btn2.addActionListener(actionEvent -> setEmpty());
+
+        btn1.addActionListener(actionEvent -> {
+            int id = Integer.parseInt(idLabel.getText());
+            int assigned = assignedTo.getSelectedIndex();
+            int categoryId = category.getSelectedIndex();
+            int statusId = status.getSelectedIndex();
+            String desc = description.getText();
+            int est = Integer.parseInt(estimateTime.getText());
+            int used = Integer.parseInt(usedTime.getText());
+
+            try {
+                controller.updateTask(id, assigned, categoryId, statusId, desc, est, used);
+                parent.refreshTable();
                 setEmpty();
-            }
-        });
 
-        btn1.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                int id = Integer.parseInt(idLabel.getText());
-                int assigned = assignedTo.getSelectedIndex();
-                int categoryId = category.getSelectedIndex();
-                int statusId = status.getSelectedIndex();
-                String desc = description.getText();
-                int est = Integer.parseInt(estimateTime.getText());
-                int used = Integer.parseInt(usedTime.getText());
-
-                try {
-                    controller.updateTask(id, assigned, categoryId, statusId, desc, est, used);
-                    parent.refreshTable();
-                    setEmpty();
-
-                } catch (Exception e1) {
-                    new JOptionPane("Update Error");
-                    e1.printStackTrace();
-                }
+            } catch (Exception e1) {
+                new JOptionPane("Update Error");
+                e1.printStackTrace();
             }
         });
 
