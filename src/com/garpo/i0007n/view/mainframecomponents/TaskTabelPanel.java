@@ -35,6 +35,8 @@ public class TaskTabelPanel extends JPanel {
         table.getColumnModel().getColumn(5).setPreferredWidth(100);
         table.getColumnModel().getColumn(6).setPreferredWidth(100);
 
+        table.getColumnModel().getColumn(6).setCellRenderer(new TimeStatusColumnCellRenderer());
+
         setLayout(new BorderLayout());
         add(new JScrollPane(table), BorderLayout.CENTER);
 
