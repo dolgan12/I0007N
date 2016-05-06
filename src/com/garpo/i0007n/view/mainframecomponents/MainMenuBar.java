@@ -15,12 +15,16 @@ public class MainMenuBar extends JMenuBar{
     public MainMenuBar(JFrame frame) {
         JMenu fileMenu = new JMenu("File");
         JMenuItem exitItem = new JMenuItem("Exit");
+        JMenu newItem = new JMenu("New");
+        JMenuItem newTaskItem = new JMenuItem("New Task");
 
         // add the fileMenu to the bar
         add(fileMenu);
         //add items to the fileMenu
+        fileMenu.add(newItem);
         fileMenu.addSeparator();
         fileMenu.add(exitItem);
+        newItem.add(newTaskItem);
 
 
 

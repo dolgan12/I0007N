@@ -33,6 +33,11 @@ public class TaskTabelModel extends AbstractTableModel{
         return colNames.length;
     }
 
+    public boolean getTimeStatus(int rowIndex){
+        Task task = taskList.get(rowIndex);
+        return task.getUsedTime() > task.getEstimateTime();
+    }
+
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
         Task task = taskList.get(rowIndex);
