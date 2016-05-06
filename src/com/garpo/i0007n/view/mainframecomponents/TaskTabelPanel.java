@@ -7,6 +7,7 @@ import com.garpo.i0007n.controll.TaskTabelModel;
 import com.garpo.i0007n.view.ClickListener;
 import com.garpo.i0007n.controll.FormEvent;
 import com.garpo.i0007n.view.FormListener;
+import com.garpo.i0007n.view.detailframe.DetailFrame;
 
 import javax.swing.*;
 import java.awt.*;
@@ -64,7 +65,7 @@ public class TaskTabelPanel extends JPanel {
 
             @Override
             public void doubleClick(MouseEvent event) {
-                System.out.println("double click!");
+                new DetailFrame().setVisible(true);
             }
         });
     }
