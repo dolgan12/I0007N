@@ -79,15 +79,19 @@ public class TaskFormPanel extends JPanel implements  FormListener{
             int est = Integer.parseInt(estimateTime.getText());
             int used = Integer.parseInt(usedTime.getText());
 
-            try {
-                controller.updateTask(id, assigned, categoryId, statusId, desc, est, used);
-                parent.refreshTable();
-                setEmpty();
+            if(id > 0 && assigned > 0 && categoryId > 0 && statusId > 0 && est >= 0 && used >= 0){
+                try {
+                    controller.updateTask(id, assigned, categoryId, statusId, desc, est, used);
+                    parent.refreshTable();
+                    setEmpty();
 
-            } catch (Exception e1) {
-                new JOptionPane("Update Error");
-                e1.printStackTrace();
+                } catch (Exception e1) {
+                    new JOptionPane("Update Error");
+                    e1.printStackTrace();
+                }
             }
+
+
         });
 
 
