@@ -5,19 +5,59 @@
  */
 package com.garpo.i0007n.view.detailframe;
 
+import com.garpo.i0007n.controll.Controller;
+import com.garpo.i0007n.controll.FormEvent;
+import com.garpo.i0007n.model.Person;
+import com.garpo.i0007n.view.FormListener;
+import java.util.List;
+import javax.swing.DefaultComboBoxModel;
+
 /**
  *
  * @author Anna
  */
 public class DetailFrame extends javax.swing.JFrame {
 
-    /**
-     * Creates new form DetailFrame
-     */
-    public DetailFrame() {
+    Controller controller = Controller.getController();
+    int id;
+    Person assignedTo;
+    String cat;
+    String status;
+    String desc;
+    int estTime;
+    int usedTime;
+    int statusId;
+    DefaultComboBoxModel statusListModel;
+    
+    public DetailFrame(int id, Person assignedTo, String cat, String status, String desc, int estTime, int usedTime) {
+        this.id=id;
+        this.assignedTo=assignedTo;
+        this.cat=cat;
+        this.status = status;
+        this.desc = desc;
+        this.estTime = estTime;
+        this.usedTime = usedTime;
+        this.statusListModel = new DefaultComboBoxModel();
+        
+        
+        
+        
+         // === Setup Status list ====
+        List<String> statusList = controller.getStatusList();
+        for(String stats : statusList){
+            statusListModel.addElement(stats);
+        }
+        for(int i = 0; i < statusList.size() ;i++){
+            if(statusList.get(i).equals(status)){
+                statusId = i;
+            }
+        } 
+        
         initComponents();
     }
 
+        
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -27,11 +67,60 @@ public class DetailFrame extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jLabel1 = new javax.swing.JLabel();
+        lblDetailTaskID = new javax.swing.JLabel();
+        lblDetailCategory = new javax.swing.JLabel();
+        lblTaskID = new javax.swing.JLabel();
+        lblDetailDescription = new javax.swing.JLabel();
+        lblDetailStatus = new javax.swing.JLabel();
+        lblDetailAssignedTo = new javax.swing.JLabel();
+        lblEstimatedTime = new javax.swing.JLabel();
+        lblUsedTime = new javax.swing.JLabel();
+        txtEstimatedTime = new javax.swing.JTextField();
+        cbStatus = new javax.swing.JComboBox<>();
+        cboxAssignedTo = new javax.swing.JComboBox<>();
+        txtUsedTime = new javax.swing.JTextField();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        txtDescription = new javax.swing.JTextArea();
+        btnClose = new javax.swing.JButton();
+        btnUpdate = new javax.swing.JButton();
+        cboxCategory = new javax.swing.JComboBox<>();
+        sepDetailFrame = new javax.swing.JSeparator();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
-        jLabel1.setText("Test");
+        lblDetailTaskID.setText("Ärendenummer:");
+
+        lblDetailCategory.setText("Kategori:");
+
+        lblTaskID.setText(Integer.toString(id));
+
+        lblDetailDescription.setText("Beskrivning:");
+
+        lblDetailStatus.setText("Status:");
+
+        lblDetailAssignedTo.setText("Tilldelad till:");
+
+        lblEstimatedTime.setText("Uppskattad tidsåtgång:");
+
+        lblUsedTime.setText("Verklig tidsåtgång:");
+
+        txtEstimatedTime.setFont(new java.awt.Font("Tahoma", 2, 16)); // NOI18N
+        txtEstimatedTime.setText("Fyll i uppskattad tid");
+
+        cbStatus.setModel(statusListModel);
+        cbStatus.setSelectedIndex(statusId);
+
+        cboxAssignedTo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
+        txtDescription.setColumns(20);
+        txtDescription.setRows(5);
+        jScrollPane1.setViewportView(txtDescription);
+
+        btnClose.setText("Stäng");
+
+        btnUpdate.setText("Uppdatera");
+
+        cboxCategory.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -39,56 +128,105 @@ public class DetailFrame extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel1)
-                .addContainerGap(355, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(lblDetailTaskID)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(lblTaskID))
+                    .addComponent(lblDetailDescription)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(lblDetailCategory)
+                        .addGap(18, 18, 18)
+                        .addComponent(cboxCategory, javax.swing.GroupLayout.PREFERRED_SIZE, 294, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 376, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addGroup(layout.createSequentialGroup()
+                            .addComponent(lblUsedTime)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                            .addComponent(txtUsedTime))
+                        .addGroup(layout.createSequentialGroup()
+                            .addComponent(lblEstimatedTime)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                            .addComponent(txtEstimatedTime, javax.swing.GroupLayout.PREFERRED_SIZE, 154, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(layout.createSequentialGroup()
+                            .addComponent(lblDetailAssignedTo)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                            .addComponent(cboxAssignedTo, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGroup(layout.createSequentialGroup()
+                            .addComponent(lblDetailStatus)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                            .addComponent(cbStatus, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(btnUpdate)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnClose)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addComponent(sepDetailFrame, javax.swing.GroupLayout.Alignment.TRAILING)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel1)
-                .addContainerGap(264, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblDetailTaskID)
+                    .addComponent(lblTaskID)
+                    .addComponent(lblDetailStatus)
+                    .addComponent(cbStatus, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblDetailCategory)
+                    .addComponent(lblDetailAssignedTo)
+                    .addComponent(cboxAssignedTo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cboxCategory, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblDetailDescription)
+                    .addComponent(lblEstimatedTime)
+                    .addComponent(txtEstimatedTime, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(3, 3, 3)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(lblUsedTime)
+                            .addComponent(txtUsedTime, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(29, 29, 29)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(btnClose)
+                            .addComponent(btnUpdate))))
+                .addGap(18, 18, 18)
+                .addComponent(sepDetailFrame, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(344, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(DetailFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(DetailFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(DetailFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(DetailFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
 
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new DetailFrame().setVisible(true);
-            }
-        });
-    }
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel jLabel1;
+    private javax.swing.JButton btnClose;
+    private javax.swing.JButton btnUpdate;
+    private javax.swing.JComboBox<String> cbStatus;
+    private javax.swing.JComboBox<String> cboxAssignedTo;
+    private javax.swing.JComboBox<String> cboxCategory;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JLabel lblDetailAssignedTo;
+    private javax.swing.JLabel lblDetailCategory;
+    private javax.swing.JLabel lblDetailDescription;
+    private javax.swing.JLabel lblDetailStatus;
+    private javax.swing.JLabel lblDetailTaskID;
+    private javax.swing.JLabel lblEstimatedTime;
+    private javax.swing.JLabel lblTaskID;
+    private javax.swing.JLabel lblUsedTime;
+    private javax.swing.JSeparator sepDetailFrame;
+    private javax.swing.JTextArea txtDescription;
+    private javax.swing.JTextField txtEstimatedTime;
+    private javax.swing.JTextField txtUsedTime;
     // End of variables declaration//GEN-END:variables
 }
