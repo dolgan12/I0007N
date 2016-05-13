@@ -37,16 +37,57 @@ public class MySQLCommentDAO implements CommentDAO{
 
     @Override
     public Comment getComment(int id) throws Exception {
-        return null;
+        String selectSql = "SELECT * FROM comments WHERE id = ?";
+        Connection con = MySQLDatabase.getInstance().getConnection();
+
+        PreparedStatement selectStatement = con.prepareStatement(selectSql);
+
+        selectStatement.setInt(1, id);
+
+        ResultSet resultSet = selectStatement.executeQuery();
+        resultSet.next();
+        int commentId = resultSet.getInt("id");
+        int updatedBy = resultSet.getInt("UpdatedBy");
+        int taskId = resultSet.getInt("taskId");
+        String commentText = resultSet.getString("comment");
+        Date created = resultSet.getTimestamp("created");
+
+        Comment comment = new Comment(commentId,updatedBy,taskId,commentText,created);
+        selectStatement.close();
+
+        return comment;
     }
 
     @Override
     public int addComment(Comment comment) throws Exception {
-        return 0;
+        String insertSql = "INSERT INTO comments (id, UpdatedBy, taskId, comment, created) values (?, ?, ?, ?, ?)";
+        Connection con = MySQLDatabase.getInstance().getConnection();
+
+        PreparedStatement insertStatement = con.prepareStatement(insertSql);
+
+        insertStatement.setInt(1, comment.getId());
+        insertStatement.setInt(2, comment.getUpdatedBy());
+        insertStatement.setInt(3, comment.getTaskId());
+        insertStatement.setString(4, comment.getText());
+        insertStatement.setDate(5, comment.getSqlUpdated());
+
+        int added = insertStatement.executeUpdate();
+
+        insertStatement.close();
+        return added;
     }
 
     @Override
     public int updateComment(Comment comment) throws Exception {
-        return 0;
+        String updateSql = "UPDATE comments SET UpdatedBy = ?, comment = ?";
+        Connection con = MySQLDatabase.getInstance().getConnection();
+
+        PreparedStatement updateStatement = con.prepareStatement(updateSql);
+        updateStatement.setInt(1, comment.getUpdatedBy());
+        updateStatement.setString(2, comment.getText());
+
+        int updated = updateStatement.executeUpdate();
+        updateStatement.close();
+        return updated;
     }
 }

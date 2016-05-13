@@ -52,7 +52,11 @@ public class Comment {
         this.text = text;
     }
 
-    public Date getUpdated() {
+    public java.sql.Date getSqlUpdated() {
+
+        return new java.sql.Date(updated.getTime());
+    }
+    public Date getUpdated(){
         return updated;
     }
 
