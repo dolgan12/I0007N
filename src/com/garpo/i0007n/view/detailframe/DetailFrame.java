@@ -6,11 +6,15 @@
 package com.garpo.i0007n.view.detailframe;
 
 import com.garpo.i0007n.controll.Controller;
-import com.garpo.i0007n.controll.FormEvent;
+import com.garpo.i0007n.controll.TaskTabelModel;
 import com.garpo.i0007n.model.Person;
-import com.garpo.i0007n.view.FormListener;
+import com.garpo.i0007n.view.MainFrame;
+import com.garpo.i0007n.view.mainframecomponents.TaskTabelPanel;
 import java.util.List;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JTable;
 
 /**
  *
@@ -26,10 +30,15 @@ public class DetailFrame extends javax.swing.JFrame {
     String desc;
     int estTime;
     int usedTime;
-    int statusId;
+    int statusIndex;
+    int catIndex;
+    int personIndex;
+    JTable parent;
     DefaultComboBoxModel statusListModel;
+    DefaultComboBoxModel categoryListModel;
+    DefaultComboBoxModel personListModel;
     
-    public DetailFrame(int id, Person assignedTo, String cat, String status, String desc, int estTime, int usedTime) {
+    public DetailFrame(JTable parent, int id, Person assignedTo, String cat, String status, String desc, int estTime, int usedTime) {
         this.id=id;
         this.assignedTo=assignedTo;
         this.cat=cat;
@@ -38,7 +47,9 @@ public class DetailFrame extends javax.swing.JFrame {
         this.estTime = estTime;
         this.usedTime = usedTime;
         this.statusListModel = new DefaultComboBoxModel();
-        
+        this.categoryListModel = new DefaultComboBoxModel();       
+        this.personListModel = new DefaultComboBoxModel(); 
+  
         
         
         
@@ -49,7 +60,30 @@ public class DetailFrame extends javax.swing.JFrame {
         }
         for(int i = 0; i < statusList.size() ;i++){
             if(statusList.get(i).equals(status)){
-                statusId = i;
+                statusIndex = i;
+            }
+        } 
+        
+                // === Setup Category Combobox ====
+
+        List<String> categoryList = controller.getCategoryList();
+        for(String categoryitem : categoryList){
+            categoryListModel.addElement(categoryitem);
+        }
+        for(int i = 0; i < categoryList.size() ;i++){
+            if(categoryList.get(i).equals(cat)){
+                catIndex = i;
+            }
+        } 
+
+        // ==== Setup AssignedTo List ======
+        List<Person> persons = controller.getPersons();
+        for(Person person : persons){
+            personListModel.addElement(person);
+        }
+        for(int i = 0; i < persons.size() ;i++){
+            if(persons.get(i).equals(assignedTo)){
+                personIndex = i;
             }
         } 
         
@@ -104,23 +138,37 @@ public class DetailFrame extends javax.swing.JFrame {
 
         lblUsedTime.setText("Verklig tidsåtgång:");
 
-        txtEstimatedTime.setFont(new java.awt.Font("Tahoma", 2, 16)); // NOI18N
-        txtEstimatedTime.setText("Fyll i uppskattad tid");
+        txtEstimatedTime.setText(Integer.toString(estTime));
 
         cbStatus.setModel(statusListModel);
-        cbStatus.setSelectedIndex(statusId);
+        cbStatus.setSelectedIndex(statusIndex);
 
-        cboxAssignedTo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cboxAssignedTo.setModel(personListModel);
+        cboxAssignedTo.setSelectedIndex(personIndex);
+
+        txtUsedTime.setText(Integer.toString(usedTime));
 
         txtDescription.setColumns(20);
-        txtDescription.setRows(5);
+        txtDescription.setRows(3);
+        txtDescription.setText(desc);
         jScrollPane1.setViewportView(txtDescription);
 
         btnClose.setText("Stäng");
+        btnClose.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCloseActionPerformed(evt);
+            }
+        });
 
         btnUpdate.setText("Uppdatera");
+        btnUpdate.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnUpdateActionPerformed(evt);
+            }
+        });
 
-        cboxCategory.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cboxCategory.setModel(categoryListModel);
+        cboxCategory.setSelectedIndex(catIndex);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -205,6 +253,50 @@ public class DetailFrame extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnCloseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCloseActionPerformed
+        this.dispose();
+    }//GEN-LAST:event_btnCloseActionPerformed
+
+    private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
+        int assigned = cboxAssignedTo.getSelectedIndex();
+        int categoryId = cboxCategory.getSelectedIndex();
+        int statusId = cbStatus.getSelectedIndex();
+        String description = txtDescription.getText();
+        int est;
+        if(txtEstimatedTime.getText().equals("")){
+            est = 0;
+        }else{
+            est = Integer.parseInt(txtEstimatedTime.getText());
+        }
+        int used;
+        if(txtEstimatedTime.getText().equals("")){
+            used = 0;
+        }else{
+            used = Integer.parseInt(txtUsedTime.getText());
+        }
+//        int est = Integer.parseInt(txtEstimatedTime.getText()); 
+//        int used = Integer.parseInt(txtUsedTime.getText());
+
+            try {
+                controller.updateTask(id, assigned+1, categoryId+1, statusId+1, description, est, used);
+
+
+            } catch (Exception e1) {
+                new JOptionPane("Update Error");
+                e1.printStackTrace();
+            }
+        this.dispose();
+        //ladda om tabellen i TaskTabelPanel
+   //     parent.refresh();
+        
+
+        
+        
+        
+        
+        
+    }//GEN-LAST:event_btnUpdateActionPerformed
 
 
 
