@@ -62,7 +62,7 @@ public class Controller {
     }
 
     public Person getPerson(int id){
-        Person person = persons.get(id-1);
+        Person person = persons.get(id - 1);
 
         return person;
     }
@@ -72,7 +72,8 @@ public class Controller {
      *
      * =========  Task Controlls  ===========
      */
-    public int  addTask(Task task) throws Exception{
+    public int  addTask(int id, int assigned, int category, int status, String description, int estimateTime, int usedTime) throws Exception{
+        Task task = new Task(id, assigned, category, status, description, estimateTime, usedTime);
         return taskDAO.addTask(task);
     }
     public List<Task> getTasks() throws Exception{
@@ -81,6 +82,9 @@ public class Controller {
     public int updateTask(int id, int assigned, int category, int status, String description, int estimateTime, int usedTime) throws Exception{
         Task task = new Task(id, assigned, category, status, description, estimateTime, usedTime);
         return taskDAO.updateTask(task);
+    }
+    public int getNextId() throws Exception{
+        return taskDAO.getMaxId() + 1;
     }
 
 
