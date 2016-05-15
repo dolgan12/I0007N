@@ -5,12 +5,19 @@
  */
 package com.garpo.i0007n.view.detailframe;
 
+import com.garpo.i0007n.controll.CommentTableModel;
 import com.garpo.i0007n.controll.Controller;
 import com.garpo.i0007n.controll.TaskTabelModel;
+import com.garpo.i0007n.model.Comment;
 import com.garpo.i0007n.model.Person;
 import com.garpo.i0007n.view.MainFrame;
 import com.garpo.i0007n.view.mainframecomponents.TaskTabelPanel;
+import java.util.Calendar;
+import java.util.Date;
+
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -34,13 +41,15 @@ public class DetailFrame extends javax.swing.JFrame {
     int statusIndex;
     int catIndex;
     int personIndex;
+    Date updated = null;
     JTable parent;
     TaskTabelModel table;
+    CommentTableModel commentTableModel;
     DefaultComboBoxModel statusListModel;
     DefaultComboBoxModel categoryListModel;
     DefaultComboBoxModel personListModel;
     
-    public DetailFrame(JTable parent, int id, Person assignedTo, String cat, String status, String desc, int estTime, int usedTime) {
+    public DetailFrame(int id, Person assignedTo, String cat, String status, String desc, int estTime, int usedTime) {
         this.id=id;
         this.assignedTo=assignedTo;
         this.cat=cat;
@@ -51,6 +60,7 @@ public class DetailFrame extends javax.swing.JFrame {
         this.statusListModel = new DefaultComboBoxModel();
         this.categoryListModel = new DefaultComboBoxModel();       
         this.personListModel = new DefaultComboBoxModel(); 
+        this.commentTableModel = new CommentTableModel();
   
         
         
@@ -88,7 +98,14 @@ public class DetailFrame extends javax.swing.JFrame {
                 personIndex = i;
             }
         } 
-        
+       try{
+        commentTableModel.setData(controller.getComments(id));
+       }
+       catch (Exception e) {
+                        new JOptionPane("Kan inte hämta kommentarer");
+                        e.printStackTrace();
+                    }
+ 
         initComponents();
     }
 
@@ -103,6 +120,8 @@ public class DetailFrame extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jTable1 = new javax.swing.JTable();
         lblDetailTaskID = new javax.swing.JLabel();
         lblDetailCategory = new javax.swing.JLabel();
         lblTaskID = new javax.swing.JLabel();
@@ -120,7 +139,23 @@ public class DetailFrame extends javax.swing.JFrame {
         btnClose = new javax.swing.JButton();
         btnUpdate = new javax.swing.JButton();
         cboxCategory = new javax.swing.JComboBox<>();
-        sepDetailFrame = new javax.swing.JSeparator();
+        jSeparator1 = new javax.swing.JSeparator();
+        btnAddComment = new javax.swing.JButton();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        tblComments = new javax.swing.JTable();
+
+        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane2.setViewportView(jTable1);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -172,48 +207,77 @@ public class DetailFrame extends javax.swing.JFrame {
         cboxCategory.setModel(categoryListModel);
         cboxCategory.setSelectedIndex(catIndex);
 
+        btnAddComment.setText("Lägg till kommentar");
+        btnAddComment.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAddCommentActionPerformed(evt);
+            }
+        });
+
+        tblComments.setModel(commentTableModel);
+        tblComments.getColumnModel().getColumn(0).setPreferredWidth(400);
+        tblComments.getColumnModel().getColumn(1).setPreferredWidth(150);
+        tblComments.getColumnModel().getColumn(2).setPreferredWidth(150);
+        jScrollPane3.setViewportView(tblComments);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jSeparator1)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(lblDetailTaskID)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(lblTaskID))
-                    .addComponent(lblDetailDescription)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(lblDetailTaskID)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(lblTaskID)
+                                .addGap(171, 171, 171))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addGap(0, 0, Short.MAX_VALUE)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(lblDetailCategory, javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(lblDetailDescription, javax.swing.GroupLayout.Alignment.TRAILING))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(cboxCategory, javax.swing.GroupLayout.PREFERRED_SIZE, 217, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 261, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(13, 13, 13)))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                        .addGap(9, 9, 9)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                            .addComponent(lblEstimatedTime)
+                                            .addComponent(lblUsedTime))
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                            .addComponent(txtUsedTime)
+                                            .addComponent(txtEstimatedTime, javax.swing.GroupLayout.DEFAULT_SIZE, 154, Short.MAX_VALUE)))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(btnUpdate)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(btnClose)))
+                                .addGap(0, 50, Short.MAX_VALUE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(84, 84, 84)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(lblDetailStatus)
+                                    .addComponent(lblDetailAssignedTo))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(cbStatus, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(cboxAssignedTo, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                        .addGap(35, 35, 35))
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(lblDetailCategory)
-                        .addGap(18, 18, 18)
-                        .addComponent(cboxCategory, javax.swing.GroupLayout.PREFERRED_SIZE, 294, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 376, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addGroup(layout.createSequentialGroup()
-                            .addComponent(lblUsedTime)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                            .addComponent(txtUsedTime))
-                        .addGroup(layout.createSequentialGroup()
-                            .addComponent(lblEstimatedTime)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                            .addComponent(txtEstimatedTime, javax.swing.GroupLayout.PREFERRED_SIZE, 154, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGroup(layout.createSequentialGroup()
-                            .addComponent(lblDetailAssignedTo)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                            .addComponent(cboxAssignedTo, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addGroup(layout.createSequentialGroup()
-                            .addComponent(lblDetailStatus)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                            .addComponent(cbStatus, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addComponent(btnAddComment)
+                        .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(btnUpdate)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnClose)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addComponent(sepDetailFrame, javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addComponent(jScrollPane3)
+                        .addContainerGap())))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -231,26 +295,30 @@ public class DetailFrame extends javax.swing.JFrame {
                     .addComponent(cboxAssignedTo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(cboxCategory, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblDetailDescription)
-                    .addComponent(lblEstimatedTime)
-                    .addComponent(txtEstimatedTime, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(3, 3, 3)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(lblUsedTime)
-                            .addComponent(txtUsedTime, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(29, 29, 29)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(lblEstimatedTime)
+                                    .addComponent(txtEstimatedTime, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(lblUsedTime)
+                                    .addComponent(txtUsedTime, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(jScrollPane1))
+                        .addGap(33, 33, 33)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(btnClose)
-                            .addComponent(btnUpdate))))
-                .addGap(18, 18, 18)
-                .addComponent(sepDetailFrame, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(344, Short.MAX_VALUE))
+                            .addComponent(btnUpdate)))
+                    .addComponent(lblDetailDescription))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnAddComment)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
 
         pack();
@@ -288,14 +356,14 @@ public class DetailFrame extends javax.swing.JFrame {
                 new JOptionPane("Update Error");
                 e1.printStackTrace();
             }
-     //   table = parent.getModel();
 
+        
         this.dispose();
 
         
         //ladda om tabellen i TaskTabelPanel
    //     parent.refresh();
-   
+   //   table = parent.getModel();
         
 
         
@@ -305,16 +373,35 @@ public class DetailFrame extends javax.swing.JFrame {
         
     }//GEN-LAST:event_btnUpdateActionPerformed
 
+    private void btnAddCommentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddCommentActionPerformed
+        String comment = JOptionPane.showInputDialog("Ny kommentar");
+        updated = Calendar.getInstance().getTime();
+        Comment com = new Comment(1,id,comment,updated);
+        try {
+            controller.addComment(com);        
+            commentTableModel.fireTableDataChanged(); //varför uppdateras inte tabellen?
+        } catch (Exception ex) {
+            new JOptionPane("Fel när kommentaren skulle sparas.");
+        }
+
+
+    }//GEN-LAST:event_btnAddCommentActionPerformed
+
 
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnAddComment;
     private javax.swing.JButton btnClose;
     private javax.swing.JButton btnUpdate;
     private javax.swing.JComboBox<String> cbStatus;
     private javax.swing.JComboBox<String> cboxAssignedTo;
     private javax.swing.JComboBox<String> cboxCategory;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JSeparator jSeparator1;
+    private javax.swing.JTable jTable1;
     private javax.swing.JLabel lblDetailAssignedTo;
     private javax.swing.JLabel lblDetailCategory;
     private javax.swing.JLabel lblDetailDescription;
@@ -323,7 +410,7 @@ public class DetailFrame extends javax.swing.JFrame {
     private javax.swing.JLabel lblEstimatedTime;
     private javax.swing.JLabel lblTaskID;
     private javax.swing.JLabel lblUsedTime;
-    private javax.swing.JSeparator sepDetailFrame;
+    private javax.swing.JTable tblComments;
     private javax.swing.JTextArea txtDescription;
     private javax.swing.JTextField txtEstimatedTime;
     private javax.swing.JTextField txtUsedTime;
