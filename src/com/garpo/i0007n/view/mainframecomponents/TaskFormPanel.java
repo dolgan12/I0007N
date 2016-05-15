@@ -3,6 +3,7 @@ package com.garpo.i0007n.view.mainframecomponents;
 import com.garpo.i0007n.controll.Controller;
 import com.garpo.i0007n.model.Person;
 import com.garpo.i0007n.controll.FormEvent;
+import com.garpo.i0007n.model.Task;
 import com.garpo.i0007n.view.FormListener;
 import com.garpo.i0007n.view.MainFrame;
 
@@ -62,32 +63,64 @@ public class TaskFormPanel extends JPanel implements  FormListener{
 
         description.setLineWrap(true);
 
-        btn1 = new JButton("Update");
+        btn1 = new JButton("New Task");
         btn2 = new JButton("Cancel");
 
-        btn1.setVisible(false);
-        btn2.setVisible(false);
 
         btn2.addActionListener(actionEvent -> setEmpty());
 
         btn1.addActionListener(actionEvent -> {
-            int id = Integer.parseInt(idLabel.getText());
+
             int assigned = assignedTo.getSelectedIndex();
             int categoryId = category.getSelectedIndex();
             int statusId = status.getSelectedIndex();
             String desc = description.getText();
-            int est = Integer.parseInt(estimateTime.getText());
-            int used = Integer.parseInt(usedTime.getText());
-
-            try {
-                controller.updateTask(id, assigned, categoryId, statusId, desc, est, used);
-                parent.refreshTable();
-                setEmpty();
-
-            } catch (Exception e1) {
-                new JOptionPane("Update Error");
-                e1.printStackTrace();
+            int est = -1;
+            int used = -1;
+            try{
+                est = Integer.parseInt(estimateTime.getText());
+            } catch (NumberFormatException e){
+                new JOptionPane("Estimated Time cannot be empty!");
             }
+            try{
+                used = Integer.parseInt(usedTime.getText());
+            }catch (NumberFormatException e){
+                new JOptionPane("Used Time cannot be empty!");
+            }
+
+
+
+            if(btn1.getText().equals("Update")){
+                int id = Integer.parseInt(idLabel.getText());
+                if(id > 0 && assigned > 0 && categoryId > 0 && statusId > 0 && est >= 0 && used >= 0){
+                    try {
+                        controller.updateTask(id, assigned, categoryId, statusId, desc, est, used);
+                        parent.refreshTable();
+                        setEmpty();
+
+                    } catch (Exception e1) {
+                        new JOptionPane("Update Error");
+                        e1.printStackTrace();
+                    }
+                }
+            }else{
+                try{
+                    int id = controller.getNextId();
+                    if(id > 0 && assigned > 0 && categoryId > 0 && statusId > 0 && est >= 0 && used >= 0){
+
+                        controller.addTask(id, assigned, categoryId, statusId,desc, est, used);
+                        parent.refreshTable();
+                        setEmpty();
+                    }
+                    System.out.println(id);
+                } catch (Exception e){
+                    new JOptionPane("New Task Error!");
+                    e.printStackTrace();
+                }
+            }
+
+
+
         });
 
 
@@ -142,9 +175,8 @@ public class TaskFormPanel extends JPanel implements  FormListener{
         description.setText("");
         estimateTime.setText("");
         usedTime.setText("");
+        btn1.setText("New Task");
 
-        btn1.setVisible(false);
-        btn2.setVisible(false);
     }
 
     public void layoutComponents(){
@@ -272,6 +304,7 @@ public class TaskFormPanel extends JPanel implements  FormListener{
         flowPanel.add(btn1);
         flowPanel.add(btn2);
 
+
         add(gridPanel,BorderLayout.CENTER);
         add(flowPanel,BorderLayout.SOUTH);
     }
@@ -287,7 +320,6 @@ public class TaskFormPanel extends JPanel implements  FormListener{
         estimateTime.setText(Integer.toString(event.getEstimateTime()));
         usedTime.setText(Integer.toString(event.getUsedTime()));
 
-        btn1.setVisible(true);
-        btn2.setVisible(true);
+        btn1.setText("Update");
     }
 }

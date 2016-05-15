@@ -100,4 +100,17 @@ public class MySQLTaskDAO implements TaskDAO{
         preparedStatement.close();
         return task;
     }
+
+    @Override
+    public int getMaxId() throws Exception {
+        String selectSql = "SELECT MAX(id) AS max FROM tasks";
+        Connection con = MySQLDatabase.getInstance().getConnection();
+
+        PreparedStatement selectStatement = con.prepareStatement(selectSql);
+
+        ResultSet resultSet = selectStatement.executeQuery();
+        resultSet.next();
+        int taskId = resultSet.getInt("max");
+        return taskId;
+    }
 }
