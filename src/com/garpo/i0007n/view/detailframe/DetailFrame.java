@@ -15,6 +15,7 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTable;
+import javax.swing.table.TableModel;
 
 /**
  *
@@ -34,6 +35,7 @@ public class DetailFrame extends javax.swing.JFrame {
     int catIndex;
     int personIndex;
     JTable parent;
+    TaskTabelModel table;
     DefaultComboBoxModel statusListModel;
     DefaultComboBoxModel categoryListModel;
     DefaultComboBoxModel personListModel;
@@ -286,9 +288,14 @@ public class DetailFrame extends javax.swing.JFrame {
                 new JOptionPane("Update Error");
                 e1.printStackTrace();
             }
+     //   table = parent.getModel();
+
         this.dispose();
+
+        
         //ladda om tabellen i TaskTabelPanel
    //     parent.refresh();
+   
         
 
         
