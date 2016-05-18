@@ -1,9 +1,6 @@
 package com.garpo.i0007n.model;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -61,17 +58,7 @@ public class MySQLTaskDAO implements TaskDAO{
 
         Statement selectStatement = conn.createStatement();
         ResultSet resultSet = selectStatement.executeQuery(selectSQL);
-        while(resultSet.next()){
-            int id = resultSet.getInt("id");
-            int catId = resultSet.getInt("categoryId");
-            int assigned = resultSet.getInt("assignedTo");
-            int status = resultSet.getInt("statusId");
-            String description = resultSet.getString("description");
-            int eTime = resultSet.getInt("estimateTime");
-            int uTime = resultSet.getInt("usedTime");
-            Task task = new Task(id, assigned, catId, status, description, eTime, uTime);
-            tasks.add(task);
-        }
+        tasks = generateTasks(resultSet);
         selectStatement.close();
         return tasks;
     }
@@ -112,5 +99,42 @@ public class MySQLTaskDAO implements TaskDAO{
         resultSet.next();
         int taskId = resultSet.getInt("max");
         return taskId;
+    }
+
+    @Override
+    public List<Task> getTasksForPerson(int personId) throws Exception {
+        List<Task> tasks = new ArrayList<>();
+        String selectSQL = "Select * FROM tasks WHERE assignedTo = ? ORDER BY id DESC";
+        Connection conn = MySQLDatabase.getInstance().getConnection();
+
+        PreparedStatement preparedStatement = conn.prepareStatement(selectSQL);
+
+        preparedStatement.setInt(1, personId);
+        ResultSet resultSet = preparedStatement.executeQuery();
+        tasks = generateTasks(resultSet);
+
+        preparedStatement.close();
+        return tasks;
+    }
+
+    private List<Task> generateTasks(ResultSet resultSet){
+        List<Task> tasks = new ArrayList<>();
+
+        try {
+            while(resultSet.next()){
+                int id = resultSet.getInt("id");
+                int catId = resultSet.getInt("categoryId");
+                int assigned = resultSet.getInt("assignedTo");
+                int status = resultSet.getInt("statusId");
+                String description = resultSet.getString("description");
+                int eTime = resultSet.getInt("estimateTime");
+                int uTime = resultSet.getInt("usedTime");
+                Task task = new Task(id, assigned, catId, status, description, eTime, uTime);
+                tasks.add(task);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return tasks;
     }
 }

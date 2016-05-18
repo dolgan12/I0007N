@@ -66,6 +66,15 @@ public class Controller {
 
         return person;
     }
+    public int getPersonId(String name){
+
+        for(Person person : persons){
+            if(person.toString().equals(name)){
+                return person.getId();
+            }
+        }
+        return -1;
+    }
 
 
     /**
@@ -85,6 +94,9 @@ public class Controller {
     }
     public int getNextId() throws Exception{
         return taskDAO.getMaxId() + 1;
+    }
+    public List<Task> getTasksForPerson(int personId) throws Exception{
+        return taskDAO.getTasksForPerson(personId);
     }
 
 
