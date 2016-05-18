@@ -7,6 +7,7 @@ import com.garpo.i0007n.controll.TaskTabelModel;
 import com.garpo.i0007n.view.ClickListener;
 import com.garpo.i0007n.controll.FormEvent;
 import com.garpo.i0007n.view.FormListener;
+import com.garpo.i0007n.view.detailframe.DetailFrame;
 
 import javax.swing.*;
 import java.awt.*;
@@ -63,10 +64,23 @@ public class TaskTabelPanel extends JPanel {
             }
 
             @Override
-            public void doubleClick(MouseEvent event) {
-                System.out.println("double click!");
+            public void doubleClick(MouseEvent e) {
+                int row = table.rowAtPoint(e.getPoint());
+                table.getSelectionModel().setSelectionInterval(row, row);
+
+                int id = (int) table.getModel().getValueAt(row, 0);
+                String status = (String) table.getModel().getValueAt(row, 1);
+                String cat = (String) table.getModel().getValueAt(row, 2);
+                String desc = (String) table.getModel().getValueAt(row, 3);
+                Person assignedTo = (Person) table.getModel().getValueAt(row, 4);
+                int estTime = (int) table.getModel().getValueAt(row, 5);
+                int usedTime = (int) table.getModel().getValueAt(row, 6);
+                DetailFrame detFrame = new DetailFrame(id, assignedTo, cat, status, desc, estTime, usedTime);
+                detFrame.setVisible(true);
+
+                
             }
-        });
+        }
     }
 
     public void setData(List<Task> taskList) {
