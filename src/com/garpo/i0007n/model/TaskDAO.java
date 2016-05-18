@@ -11,4 +11,5 @@ public interface TaskDAO {
     List<Task> getAllTasks() throws Exception;
     Task getTask(int id) throws Exception;
     int getMaxId() throws Exception;
+    List<Task> getTasksForPerson(int PersonId) throws Exception;
 }
