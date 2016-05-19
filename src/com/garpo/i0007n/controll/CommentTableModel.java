@@ -46,9 +46,9 @@ public class CommentTableModel extends AbstractTableModel {
             case 0:
                 return comment.getText();
             case 1:
-                return comment.getUpdated(); //Ger användarID. Kan ändras att ge användarens namn istället.
+                return comment.getUpdated(); 
             case 2:
-                return comment.getUpdatedBy();
+                return controller.getPerson(comment.getUpdatedBy()); 
         }
         return null;
     }

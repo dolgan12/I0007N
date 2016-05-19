@@ -75,12 +75,12 @@ public class TaskTabelPanel extends JPanel {
                 Person assignedTo = (Person) table.getModel().getValueAt(row, 4);
                 int estTime = (int) table.getModel().getValueAt(row, 5);
                 int usedTime = (int) table.getModel().getValueAt(row, 6);
-                DetailFrame detFrame = new DetailFrame(id, assignedTo, cat, status, desc, estTime, usedTime);
+                DetailFrame detFrame = new DetailFrame((JTable) e.getSource(), id, assignedTo, cat, status, desc, estTime, usedTime);
                 detFrame.setVisible(true);
 
                 
             }
-        }
+        });
     }
 
     public void setData(List<Task> taskList) {
