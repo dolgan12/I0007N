@@ -23,6 +23,8 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.table.TableModel;
+import javax.swing.table.AbstractTableModel;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -43,13 +45,12 @@ public class DetailFrame extends javax.swing.JFrame {
     int personIndex;
     Date updated = null;
     JTable parent;
-    TaskTabelModel table;
     CommentTableModel commentTableModel;
     DefaultComboBoxModel statusListModel;
     DefaultComboBoxModel categoryListModel;
     DefaultComboBoxModel personListModel;
     
-    public DetailFrame(int id, Person assignedTo, String cat, String status, String desc, int estTime, int usedTime) {
+    public DetailFrame(JTable parent, int id, Person assignedTo, String cat, String status, String desc, int estTime, int usedTime) {
         this.id=id;
         this.assignedTo=assignedTo;
         this.cat=cat;
@@ -345,8 +346,6 @@ public class DetailFrame extends javax.swing.JFrame {
         }else{
             used = Integer.parseInt(txtUsedTime.getText());
         }
-//        int est = Integer.parseInt(txtEstimatedTime.getText()); 
-//        int used = Integer.parseInt(txtUsedTime.getText());
 
             try {
                 controller.updateTask(id, assigned+1, categoryId+1, statusId+1, description, est, used);
@@ -356,8 +355,8 @@ public class DetailFrame extends javax.swing.JFrame {
                 new JOptionPane("Update Error");
                 e1.printStackTrace();
             }
-
-        
+//        AbstractTableModel test = (AbstractTableModel) parent.getModel();
+//        test.fireTableDataChanged();
         this.dispose();
 
         
@@ -379,11 +378,19 @@ public class DetailFrame extends javax.swing.JFrame {
         Comment com = new Comment(1,id,comment,updated);
         try {
             controller.addComment(com);        
-            commentTableModel.fireTableDataChanged(); //varför uppdateras inte tabellen?
+
         } catch (Exception ex) {
             new JOptionPane("Fel när kommentaren skulle sparas.");
         }
-
+        //Hämtar data från databasen och laddar om tabellen med kommentarer.
+        try{
+        commentTableModel.setData(controller.getComments(id));
+        }
+        catch (Exception e) {
+                        new JOptionPane("Kan inte hämta kommentarer");
+                        e.printStackTrace();
+                    }
+        commentTableModel.fireTableDataChanged();
 
     }//GEN-LAST:event_btnAddCommentActionPerformed
 
