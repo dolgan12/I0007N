@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Context path="/">
+    <Resource name="jdbc/mysqldb" auth="Container" type="javax.sql.DataSource"
+              maxTotal="50" maxIdle="30" maxWaitMillis="10000"
+              username="LTUuser" password="d0004n"
+              driverClassName="com.mysql.jdbc.Driver"
+              url="jdbc:mysql://mysql03.crossnet.net/LTUuser"/>
+</Context>
