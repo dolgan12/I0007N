@@ -4,10 +4,6 @@ import com.garpo.i0007n.model.Comment;
 import java.util.List;
 import javax.swing.table.AbstractTableModel;
 
-/**
- *
- * @author Anna
- */
 public class CommentTableModel extends AbstractTableModel {
     Controller controller = Controller.getController();
     private List<Comment> commentList;
