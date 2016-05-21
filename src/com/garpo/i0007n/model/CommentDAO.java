@@ -10,4 +10,5 @@ public interface CommentDAO {
     Comment getComment(int id) throws Exception;
     int addComment(Comment comment) throws Exception;
     int updateComment(Comment comment) throws Exception;
+    int getMaxId() throws Exception;
 }

@@ -148,5 +148,8 @@ public class Controller {
     public void addComment(Comment comment) throws Exception{
         commentDAO.addComment(comment);
     }
+    public int getNextCommentId() throws Exception{
+        return commentDAO.getMaxId() + 1;
+    }
 
 }

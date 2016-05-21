@@ -90,4 +90,15 @@ public class MySQLCommentDAO implements CommentDAO{
         updateStatement.close();
         return updated;
     }
+    public int getMaxId() throws Exception {
+        String selectSql = "SELECT MAX(id) AS max FROM comments";
+        Connection con = MySQLDatabase.getInstance().getConnection();
+
+        PreparedStatement selectStatement = con.prepareStatement(selectSql);
+
+        ResultSet resultSet = selectStatement.executeQuery();
+        resultSet.next();
+        int commentId = resultSet.getInt("max");
+        return commentId;
+    }
 }

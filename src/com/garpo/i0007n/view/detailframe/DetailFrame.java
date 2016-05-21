@@ -62,6 +62,7 @@ public class DetailFrame extends javax.swing.JFrame {
         this.categoryListModel = new DefaultComboBoxModel();       
         this.personListModel = new DefaultComboBoxModel(); 
         this.commentTableModel = new CommentTableModel();
+        this.parent = parent;
   
         
         
@@ -355,13 +356,19 @@ public class DetailFrame extends javax.swing.JFrame {
                 new JOptionPane("Update Error");
                 e1.printStackTrace();
             }
-//        AbstractTableModel test = (AbstractTableModel) parent.getModel();
-//        test.fireTableDataChanged();
+        TaskTabelModel model = (TaskTabelModel) parent.getModel();
+        try {
+            model.setData(controller.getTasks());
+            model.fireTableDataChanged();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
         this.dispose();
 
         
         //ladda om tabellen i TaskTabelPanel
-   //     parent.refresh();
+
    //   table = parent.getModel();
         
 
@@ -375,13 +382,15 @@ public class DetailFrame extends javax.swing.JFrame {
     private void btnAddCommentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddCommentActionPerformed
         String comment = JOptionPane.showInputDialog("Ny kommentar");
         updated = Calendar.getInstance().getTime();
-        Comment com = new Comment(1,id,comment,updated);
         try {
-            controller.addComment(com);        
-
-        } catch (Exception ex) {
+            int commentId = controller.getNextCommentId();
+            Comment com = new Comment(commentId,1,id,comment,updated);
+            controller.addComment(com);
+        } catch (Exception e) {
             new JOptionPane("Fel när kommentaren skulle sparas.");
+            e.printStackTrace();
         }
+
         //Hämtar data från databasen och laddar om tabellen med kommentarer.
         try{
         commentTableModel.setData(controller.getComments(id));
