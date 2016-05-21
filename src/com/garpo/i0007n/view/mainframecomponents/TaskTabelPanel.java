@@ -77,8 +77,6 @@ public class TaskTabelPanel extends JPanel {
                 int usedTime = (int) table.getModel().getValueAt(row, 6);
                 DetailFrame detFrame = new DetailFrame((JTable) e.getSource(), id, assignedTo, cat, status, desc, estTime, usedTime);
                 detFrame.setVisible(true);
-
-                
             }
         });
     }
