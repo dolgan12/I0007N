@@ -14,7 +14,7 @@ import javax.swing.JTable;
 
 
 public class DetailFrame extends javax.swing.JFrame {
-
+    
     Controller controller = Controller.getController();
     private int id;
     private Person assignedTo;
@@ -35,6 +35,7 @@ public class DetailFrame extends javax.swing.JFrame {
     private DefaultComboBoxModel personListModel;
     
     public DetailFrame(JTable parent, int id, Person assignedTo, String cat, String status, String desc, int estTime, int usedTime) {
+        super("Redigera ärende");
         this.id=id;
         this.assignedTo=assignedTo;
         this.cat=cat;
