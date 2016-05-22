@@ -98,6 +98,12 @@ public class Controller {
     public List<Task> getTasksForPerson(int personId) throws Exception{
         return taskDAO.getTasksForPerson(personId);
     }
+    public Task getTask(int taskId)throws Exception{
+        return taskDAO.getTask(taskId);
+    }
+    public int updateTask(Task task) throws Exception{
+        return taskDAO.updateTask(task);
+    }
 
 
 
@@ -110,6 +116,9 @@ public class Controller {
         return statuses;
     }
     public Status getStatus(int id){
+        if(id == 0){
+            return statuses.get(id);
+        }
         return statuses.get(id-1);
     }
     public List<String> getStatusList(){
@@ -125,7 +134,11 @@ public class Controller {
      *  ===== Category Controlls ======
      */
     public List<Category> getCategories(){return categories;}
-    public Category getCategory(int id){return categories.get(id-1);}
+    public Category getCategory(int id){
+        if(id == 0){
+            return categories.get(id);
+        }
+        return categories.get(id-1);}
     public List<String> getCategoryList(){
         List<String> categoryList = new ArrayList<>();
         for(Category category : categories){

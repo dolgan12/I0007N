@@ -15,7 +15,6 @@ import java.util.List;
 @ManagedBean
 @SessionScoped
 public class LoginBean {
-    //@Resource(name="jdbc/mysqldb")
 
     private String logedInPerson;
     private List<String> listOfPersons;

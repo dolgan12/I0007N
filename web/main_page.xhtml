@@ -26,12 +26,16 @@
             </tr>
 
             <tbody>
-            <ui:repeat var="task" value="#{tasksBean.tasks}">
+            <ui:repeat var="selectedTask" value="#{tasksBean.tasks}">
 
                 <tr>
-                    <td><h:commandLink var="#{task}" value="#{task.id}" action="taskItem" /></td>
-                    <td><h:commandLink var="#{task}" value="#{task.description}" action="taskItem" /></td>
-                    <td><h:commandLink var="#{task}" value="#{tasksBean.getTaskStatus(task.assigned)}" action="taskItem" /></td>
+                    <td>
+                        <h:commandLink var="#{tasksBean.insert(selectedTask)}" value="#{selectedTask.id}" action="taskItem">
+
+                        </h:commandLink>
+                    </td>
+                    <td><h:commandLink var="#{tasksBean.selectedTask}" value="#{selectedTask.description}" action="taskItem" /></td>
+                    <td><h:commandLink var="#{tasksBean.selectedTask}" value="#{tasksBean.getTaskStatus(selectedTask.assigned)}" action="taskItem" /></td>
                 </tr>
 
             </ui:repeat>

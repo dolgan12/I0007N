@@ -3,14 +3,21 @@ body {
     color: #404040;
     background: #0ca3d2;
 }
+.center {
+    text-align: center;
+}
 
 .container {
     margin: auto auto;
     margin-top: 30px;
     width: 640px;
 }
-.container h2{
-    align: center;
+textarea {
+    overflow: auto;
+    resize: none;
+}
+
+h1 h2 h3{
     text-align: center;
 }
 
@@ -184,6 +191,25 @@ a {
     border-radius: 5px;
     padding-bottom: 20px;
     padding-top:20px;
+}
+
+.mainItemContainer {
+    width: 600px;
+    min-height: 60px;
+    margin: 15px auto;
+    background-color: lightgray;
+    border-radius: 5px;
+    padding-bottom: 10px;
+    padding-top: 10px;
+}
+.mainItemContainer h4 p {
+    padding-left:15px;
+}
+.comment-date {
+    float: right;
+    font-size: 0.9rem;
+    margin-right: 25px;
+    margin-top: -30px;
 }
 
 @media (max-width:767px) {

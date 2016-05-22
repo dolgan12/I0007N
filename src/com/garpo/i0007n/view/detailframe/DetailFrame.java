@@ -366,16 +366,7 @@ public class DetailFrame extends javax.swing.JFrame {
 
         this.dispose();
 
-        
-        //ladda om tabellen i TaskTabelPanel
 
-   //   table = parent.getModel();
-        
-
-        
-        
-        
-        
         
     }//GEN-LAST:event_btnUpdateActionPerformed
 

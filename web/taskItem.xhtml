@@ -8,40 +8,76 @@
 
 <h:head>
     <h:outputStylesheet library="css" name="bootstrap.css"/>
-    <h:outputStylesheet library="css" name="style.css" />
+    <h:outputStylesheet library="css" name="style.css"/>
 </h:head>
 
+<f:metadata>
+    <f:event type="preRenderView" listener="#{tasksBean.insert(selectedTask)}"/>
+</f:metadata>
 <h:body>
+    <h:form>
     <div id="wrapper">
         <div id="sidebar-wrapper">
             <div class="sidebar-nav-itemContainer">
                 <p>
-                    Assigned to:<br/>
-                <h:selectOneMenu value="#{loginBean.logedInPerson}">
-                    <f:selectItem itemValue="#{loginBean.logedInPerson}"/>
-                    <f:selectItems value="#{loginBean.listOfPersons}" />
+                    Task ID: <h:outputLabel value="#{tasksBean.task.id}" /><br/>
+                    Task Status:
+                <h:selectOneMenu value="#{tasksBean.task.status}">
+                    <f:selectItem itemValue="#{null}" itemLabel="#{tasksBean.getTaskStatus(tasksBean.task.status)}" />
+                    <f:selectItems value="#{tasksBean.statuses}" var="status" itemValue="#{status.id}" itemLabel="#{status.description}"/>
+
                 </h:selectOneMenu>
+                    <br/><br/>
+                Time worked: <h:inputText value="#{tasksBean.task.usedTime}" maxlength="3" size="4"/>
             </p>
             </div>
             <div class="sidebar-nav-itemContainer">
                 <p>
-                    Assigned to:<br/>
-
+                    Category: <h:outputLabel value="#{tasksBean.getTaskCategory(tasksBean.task.category)}" />
+                    <br/>
+                    Assigned to: <h:outputLabel value="#{loginBean.logedInPerson}" /> <br/>
+                    Estimated Time: <h:outputLabel value="#{tasksBean.task.estimateTime}" /> min
                 </p>
+
             </div>
+            <p class="submit center">
+
+                <h:commandButton value="Save" action="#{tasksBean.saveItem}" />
+
+            </p>
 
         </div>
         <div id="page-content-wrapper">
             <div class="page-content">
                 <div class="container">
+                    <div class="row center">
+                        <h3>#{tasksBean.task.description}</h3>
+                        <hr/>
+                        <div class="col-md-12 center">
+                            <!-- content of page -->
+                            <h:outputLabel value="New Comment:" style="float: left"/>
+                            <h:inputTextarea value="#{tasksBean.newComment}" cols="80" rows="10"/>
+
+                        </div>
+
+                    </div>
+                    <ui:repeat value="#{tasksBean.getCommentsForTask(tasksBean.task.id)}" var="comment">
                     <div class="row">
                         <div class="col-md-12">
-                            <!-- content of page -->
+                            <div class="mainItemContainer">
+                                <h4 style="margin-left: 20px">#{tasksBean.getname(comment.updatedBy)}:</h4>
+                                <div class="comment-date">#{comment.updated}</div>
+                                <br/>
+
+                                <p style="margin-left:20px">#{comment.text}</p>
+                            </div>
                         </div>
                     </div>
+                    </ui:repeat>
                 </div>
             </div>
         </div>
     </div>
+    </h:form>
 </h:body>
 </html>

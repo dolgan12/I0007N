@@ -14,7 +14,7 @@ public class MySQLCommentDAO implements CommentDAO{
     @Override
     public List<Comment> getAllCommentsForId(int taskid) throws Exception {
         List<Comment> comments = new ArrayList<>();
-        String selectSql = "SELECT * from comments WHERE taskId = ?";
+        String selectSql = "SELECT * from comments WHERE taskId = ? ORDER BY id DESC";
         Connection con = MySQLDatabase.getInstance().getConnection();
 
         PreparedStatement selectStatement = con.prepareStatement(selectSql);
