@@ -363,7 +363,11 @@ public class DetailFrame extends javax.swing.JFrame {
             e.printStackTrace();
         }
 
+        
         this.dispose();
+        
+        
+        
     }//GEN-LAST:event_btnUpdateActionPerformed
 
     private void btnAddCommentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddCommentActionPerformed
